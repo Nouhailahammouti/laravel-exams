@@ -1,17 +1,16 @@
 public function up()
 {
-    Schema::create('dossier_terrain', function (Blueprint $table) {
-        $table->id('idDossier');
+    SSchema::create('Dossier_Terrain', function (Blueprint $table) {
+        $table->string('iddossier')->primary();
         $table->date('date_ouverture');
         $table->date('date_cloture')->nullable();
-        $table->string('etat');
-        $table->unsignedBigInteger('idNotaire');
+        $table->string('numter');
+        $table->string('numnotaire');
+        $table->enum('etat', ['traité', 'nontraité']);
+        // Foreign keys
+        $table->foreign('numter')->references('numter')->on('Terrain');
+        $table->foreign('numnotaire')->references('numn')->on('Notaire');
         $table->timestamps();
-
-        $table->foreign('idNotaire')
-              ->references('idNotaire')
-              ->on('notaire')
-              ->onDelete('cascade');
     });
 }
 
