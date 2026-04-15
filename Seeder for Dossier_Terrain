@@ -1,0 +1,35 @@
+public function run()
+{
+    DB::table('Dossier_Terrain')->insert([
+        [
+            'iddossier' => 'D01', 
+            'date_ouverture' => '2023-01-10', 
+            'numter' => 'T100', 
+            'numnotaire' => 'N1E', 
+            'etat' => 'traité'
+        ],
+        [
+            'iddossier' => 'D02', 
+            'date_ouverture' => '2023-02-15', 
+            'numter' => 'T200', 
+            'numnotaire' => 'N2E', 
+            'etat' => 'nontraité'
+        ],
+    ]);
+}
+
+
+is used to fill your database with sample or initial data automatically.
+       A seeder is used when you want to:
+Add test data (for development)
+Insert default data (like admin user, roles, categories)
+Quickly populate tables without manually inserting rows
+Simple example
+
+Instead of going to phpMyAdmin and adding users one by one, you write a seeder:
+   User::create([
+    'name' => 'Admin',
+    'email' => 'admin@test.com',
+    'password' => bcrypt('123456'),
+]);
+   php artisan db:seed
