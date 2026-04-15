@@ -1,0 +1,45 @@
+b) SupprimerTous: Supprime plusieurs dossiers par IDs.
+
+public function supprimerTous(Request $request) {
+    Dossier_Terrain::destroy($request->ids);
+    return back();
+}
+
+}
+
+///
+1. delete() (on object OR condition)
+✔ Case 1: delete object
+$product = Product::find(1);
+$product->delete();
+👉 Meaning:
+You already fetched the record
+Then you delete it
+
+Case 2: delete with condition
+Product::where('price', '<', 10)->delete();
+👉 Meaning:
+delete many records using condition
+
+2. destroy() (by ID only)
+Product::destroy(1);
+Product::destroy([1, 2, 3]);
+👉 Meaning:
+delete directly using PRIMARY KEY
+no need to fetch object
+
+
+
+Feature	                  delete()	          destroy()
+Works on object            ✅	                  ❌
+Works on condition	       ✅	                  ❌
+Works with ID directly	   ❌                  	✅
+Multiple IDs	             ❌                 	✅
+Needs model instance	sometimes	no
+
+
+
+  If you see:
+$product->delete() → object delete
+Model::destroy($id) → direct delete
+where(...)->delete() → conditional delete
