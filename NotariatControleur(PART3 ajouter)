@@ -1,0 +1,23 @@
+c) Ajouter: Valide (commence par N, finit par E, email valide, âge > 22) et insère.
+ FIRST METHODE:
+public function ajouter(Request $request) {
+    $request->validate([
+        'numn' => 'required|regex:/^N.*E$/',
+        'email' => 'required|email',
+        'age' => 'required|integer|gt:22'
+    ]);
+    Notaire::create($request->all());
+}
+SECEND METHODE:
+  public function ajouter(Request $request) {
+    $request->validate([
+        'numn'  => 'required|regex:/^N.*E$/',
+        'email' => 'required|email',
+        'age'   => 'required|integer|gt:22'
+    ]);
+
+    Notaire::create($request->all());
+
+    return back()->with('success', 'Notaire ajouté 'DONE!');
+}
+////
