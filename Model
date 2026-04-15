@@ -1,0 +1,41 @@
+first table :
+class Notaire extends Model {
+    protected $primaryKey = 'numn';
+    public $incrementing = false;
+
+    public function dossiers() {
+        return $this->hasMany(Dossier_Terrain::class, 'numnotaire', 'numn');
+    }
+}
+
+secend table :
+class Dossier_Terrain extends Model {
+    protected $primaryKey = 'iddossier';
+    public $incrementing = false;
+
+    public function notaire() {
+        return $this->belongsTo(Notaire::class, 'numnotaire', 'numn');
+    }
+}
+
+
+////
+ables in database
+Dossier_Terrain
+Notaire
+Terrain
+📌 Relationship idea:
+One Notaire → can have MANY Dossier_Terrain
+One Dossier_Terrain → belongs to ONE Notaire
+
+👉 This is called:
+
+One-to-Many relationship
+The # (foreign key) is ALWAYS in the CHILD table
+
+✔️ hasMany (Parent)
+has no foreign key
+gives list of children
+✔️ belongsTo (Child)
+contains foreign key (#)
+belongs to one parent
