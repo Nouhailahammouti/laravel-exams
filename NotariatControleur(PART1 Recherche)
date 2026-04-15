@@ -1,0 +1,102 @@
+a) Recherche: Redirige vers la vue avec les dossiers d'un cabinet.
+
+public function recherche($id_cab) {
+    $dossiers = Dossier_Terrain::whereHas('notaire', function($q) use ($id_cab) {
+        $q->where('id_cab', $id_cab);
+    })->get();
+    return view('vueRecherche', compact('dossiers'));
+}
+
+public function supprimerTous(Request $request) {
+    Dossier_Terrain::destroy($request->ids);
+    return back();
+}
+
+public function ajouter(Request $request) {
+    $request->validate([
+        'numn' => 'required|regex:/^N.*E$/',
+        'email' => 'required|email',
+        'age' => 'required|integer|gt:22'
+    ]);
+    Notaire::create($request->all());
+}
+
+public function verifier($iddossier) {
+    $dossier = Dossier_Terrain::with('terrain')->find($iddossier);
+    if ($dossier && $dossier->etat == 'traité') {
+        return response()->json($dossier->terrain);
+    }
+    return response()->json(['message' => 'dossier encours de traitement']);
+}
+
+
+/////
+Start from Dossier_Terrain:
+“Give me dossiers BUT only if they have a notaire that matches condition
+
+NO RELATION (same table)
+
+👉 You search only in one table
+
+✔ Method: where()
+public function search($id)
+{
+    $data = Dossier_Terrain::where('iddossier', $id)->get();
+
+    return view('result', compact('data'));
+}
+When do we use this?
+search by name
+search by id
+filter in same table
+
+WITH RELATION (VERY IMPORTANT)
+
+👉 You search using another table
+
+✔ Method: whereHas()
+public function search($id_cab)
+{
+    $data = Dossier_Terrain::whereHas('notaire', function($q) use ($id_cab) {
+        $q->where('id_cab', $id_cab);
+    })->get();
+
+    return view('result', compact('data'));
+}
+When do we use this?
+filter dossiers by notaire
+filter orders by user
+filter students by class
+
+👉 THERE IS RELATION
+3. WHEN YOU WANT DATA + RELATION (NO FILTER)
+
+👉 You just want to display related data
+
+✔ Method: with():
+public function list()
+{
+    $data = Dossier_Terrain::with('notaire')->get();
+
+    return view('list', compact('data'));
+}
+show dossier + notaire name
+show product + category
+show order + user
+Ask yourself:
+1. Same table?
+
+👉 use where()
+
+2. Related table filter?
+
+👉 use whereHas()
+
+3. Just display relation?
+
+👉 use with()
+Easy memory
+Situation	Method
+same table search	where()
+search through relation	whereHas()
+display relation data	with()
