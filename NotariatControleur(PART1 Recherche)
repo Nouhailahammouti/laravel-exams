@@ -7,27 +7,9 @@ public function recherche($id_cab) {
     return view('vueRecherche', compact('dossiers'));
 }
 
-public function supprimerTous(Request $request) {
-    Dossier_Terrain::destroy($request->ids);
-    return back();
+puequest->all());
 }
 
-public function ajouter(Request $request) {
-    $request->validate([
-        'numn' => 'required|regex:/^N.*E$/',
-        'email' => 'required|email',
-        'age' => 'required|integer|gt:22'
-    ]);
-    Notaire::create($request->all());
-}
-
-public function verifier($iddossier) {
-    $dossier = Dossier_Terrain::with('terrain')->find($iddossier);
-    if ($dossier && $dossier->etat == 'traité') {
-        return response()->json($dossier->terrain);
-    }
-    return response()->json(['message' => 'dossier encours de traitement']);
-}
 
 
 /////
