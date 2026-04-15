@@ -1,0 +1,24 @@
+public function up()
+{
+    Schema::create('dossier_terrain', function (Blueprint $table) {
+        $table->id('idDossier');
+        $table->date('date_ouverture');
+        $table->date('date_cloture')->nullable();
+        $table->string('etat');
+        $table->unsignedBigInteger('idNotaire');
+        $table->timestamps();
+
+        $table->foreign('idNotaire')
+              ->references('idNotaire')
+              ->on('notaire')
+              ->onDelete('cascade');
+    });
+}
+
+public function down()
+{
+    Schema::dropIfExists('dossier_terrain');
+}
+
+NOTE : # = Foreign Key.
+Foreign Key =Relationship
