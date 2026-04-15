@@ -39,3 +39,6 @@ gives list of children
 ✔️ belongsTo (Child)
 contains foreign key (#)
 belongs to one parent
+🔥 Super simple memory trick
+
+👉 “The table that HAS the # is the CHILD”
