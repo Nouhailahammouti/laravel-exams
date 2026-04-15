@@ -1,0 +1,8 @@
+
+web.php
+Route::get('/recherche/{id_cab}', [NotariatControleur::class, 'recherche']);
+Route::post('/supprimer-tous', [NotariatControleur::class, 'supprimerTous']);
+Route::post('/notaire/ajouter', [NotariatControleur::class, 'ajouter']);
+
+api.php
+Route::get('/verifier/{iddossier}', [NotariatControleur::class, 'verifier']);
