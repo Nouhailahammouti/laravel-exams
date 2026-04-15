@@ -1,0 +1,88 @@
+d) Verifier: Retourne les infos du terrain en JSON si traité, sinon un message.
+public function verifier($iddossier) {
+    $dossier = Dossier_Terrain::with('terrain')->find($iddossier);
+    if ($dossier && $dossier->etat == 'traité') {
+        return response()->json($dossier->terrain);
+    }
+    return response()->json(['message' => 'dossier encours de traitement']);
+}
+
+
+
+/////
+What is the goal of this function?
+
+👉 It checks a dossier and:
+
+If it is treated (traité) → return terrain data
+If not → return a message
+find($iddossier)
+searches dossier by ID (primary key)
+with('terrain')
+loads related table Terrain
+avoids extra SQL queries (eager loading)
+
+👉 So Laravel fetches:
+
+dossier
+AND its terrain in one go
+
+
+find() → get one record
+with() → load relation
+if ($dossier->etat) → check condition
+response()->json() → return API data
+
+
+  When do we use this verifier() function?
+We use this kind of function when we want to:
+
+🔥 CHECK something + RETURN RESULT
+Typical cases:
+check status (traité / nontraité)
+verify user or record
+validate condition before showing data
+return JSON (API / AJAX)
+
+
+Do we use these methods for API / JSON?
+
+👉 YES — but NOT “one special method only”
+👉 You can use any Laravel query method, as long as you return JSON.
+
+SON/API only means:
+
+“We return data in JSON format”
+
+The methods you use are still normal Laravel methods:
+
+find()
+where()
+with()
+first()
+exists()
+
+
+  f NO API and NO JSON, what changes?
+
+👉 Only ONE thing changes:
+
+❌ You don’t return JSON
+✔ You return a VIEW
+nstead of:
+
+return response()->json(...)
+
+You use:
+
+return view(...)
+Example (same logic, NO API)
+public function verifier($iddossier) {
+    $dossier = Dossier_Terrain::with('terrain')->find($iddossier);
+
+    if ($dossier && $dossier->etat == 'traité') {
+        return view('dossier.ok', compact('dossier'));
+    }
+
+    return view('dossier.not_ok', ['message' => 'dossier encours de traitement']);
+}
